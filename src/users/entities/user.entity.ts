@@ -1,13 +1,16 @@
 import { RoleEnum } from "src/enums/role.enum";
 import { TimeStampEntity } from "src/generics/timestamp.entity";
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Mvoiture } from "src/model-voiture/entites/voiture.entity";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity('user')
 export class User extends TimeStampEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column()
+    @Column({
+        unique:true
+    })
     username: string;
 
     @Column({
@@ -17,9 +20,18 @@ export class User extends TimeStampEntity {
 
     @Column()
     password: string;
+    @Column()
+    salt:string;
 
     @Column({
         default: RoleEnum.USER
     })
     role: RoleEnum
+    @OneToMany(
+        type => Mvoiture ,
+        (voiture)=>voiture.user
+    )
+    // voiture []
+    voiture:Mvoiture;
+   
 }

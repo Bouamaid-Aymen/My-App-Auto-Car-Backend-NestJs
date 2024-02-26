@@ -3,7 +3,9 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from './users/users.module';
+
 import * as dotenv from 'dotenv';
+import { ModelVoitureModule } from './model-voiture/model-voiture.module';
 dotenv.config();
 
 
@@ -19,7 +21,7 @@ dotenv.config();
       entities: ['dist/**/*.entity{.ts,.js}'],//RegEx (Regular Expressions)
       synchronize: true,
     }
-  ), UsersModule
+  ), UsersModule,ModelVoitureModule,
   ],
   controllers: [AppController],
   providers: [AppService],

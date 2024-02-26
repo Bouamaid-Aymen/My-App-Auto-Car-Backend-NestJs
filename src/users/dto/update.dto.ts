@@ -1,16 +1,17 @@
-import { IsEmail, IsNotEmpty, IsString, MinLength } from "class-validator";
+import { IsEmail, IsNotEmpty, IsOptional, IsString, MinLength, } from "class-validator";
 
-export class SignUpDTO {
+export class UpDateDTO {
     @IsNotEmpty()
+    @IsOptional()
     @IsString()
     username: string;
 
     @IsNotEmpty()
     @IsEmail()
+    @IsOptional()
     email: string;
 
     @IsNotEmpty()
     @MinLength(8)
-    //Pattern with regEx
     password: string;
 }
