@@ -7,9 +7,8 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(new ValidationPipe());
   const corsOption ={
-      origin: ['http://localhost:58021/'],
-      methods: ['GET', 'POST'],
-      allowedHeaders: ['Content-Type', 'Authorization'],
+      origin: ['http://localhost:8888/'],
+      
 
   };
   app.enableCors(corsOption)

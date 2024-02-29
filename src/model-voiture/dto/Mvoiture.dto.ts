@@ -5,7 +5,6 @@ export class MvoitureDto{
 Marque:string;
 @IsNotEmpty()
 Modele:string;
-@IsNotEmpty()
-Voyant:string;
+
 
 }

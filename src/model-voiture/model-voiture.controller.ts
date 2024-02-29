@@ -1,8 +1,9 @@
-import { Body, Controller, Delete, Get, Param, ParseArrayPipe, ParseIntPipe, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseArrayPipe, ParseIntPipe, Patch, Post, UseGuards } from '@nestjs/common';
 import { MvoitureDto } from './dto/Mvoiture.dto';
 import { Mvoiture } from './entites/voiture.entity';
 import { ModelVoitureService } from './model-voiture.service';
 import { upmvoitureDto } from './dto/upvoiture.dto';
+import { JwtAuthGuard } from 'src/users/Guards/jwt.auth.guard';
 
 
 
@@ -22,14 +23,15 @@ export class ModelVoitureController {
         }
 
     @Patch(':id')
-        updvoiture(
+       async updvoiture(
             @Body()Creds:upmvoitureDto,
             @Param('id',ParseIntPipe)id:number
         ){
-            return this.voitureService.updatevoiture(id,Creds)
+            return await this.voitureService.updatevoiture(id,Creds)
 
         }
     @Get()
+    @UseGuards(JwtAuthGuard)
         getvoiture(
             @Body()Creds:Mvoiture
         ){

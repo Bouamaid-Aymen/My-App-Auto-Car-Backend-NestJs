@@ -1,16 +1,19 @@
-import { ConflictException, HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
+import { Body, ConflictException, HttpException, HttpStatus, Injectable, NotFoundException, Param, ParseIntPipe } from '@nestjs/common';
 import { LoginDTO } from './dto/login.dto';
 import { User } from './entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { BSON, Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { RegisterDto } from './dto/register.dto';
+import { JwtService } from '@nestjs/jwt';
+import { ExceptionsHandler } from '@nestjs/core/exceptions/exceptions-handler';
 
 @Injectable()
 export class UsersService {
     constructor(
         @InjectRepository(User)
-        private readonly userRepo: Repository<User>
+        private readonly userRepo: Repository<User>,
+        private readonly jwtService:JwtService  
     ){}
 
     // REGISTER 
@@ -31,27 +34,38 @@ export class UsersService {
                 return user 
 
             }
+    // login
+             async login(credentials:LoginDTO){ 
+                const { username , password } = credentials ;
+                const user = await this.userRepo.createQueryBuilder("User")
+                   .where("user.username =:username or user.email =:username",
+                   {username})
+                   .getOne();
+                   
+                 
+                  if( !user){
+                    throw new NotFoundException('username ou password erronée ')
+                  }
+                  const hashedPassword = await bcrypt.hash( password,user.salt);
+                  if(hashedPassword === user.password ){
+                    const pyload={
+                        username:user.username,
+                        email:user.email,
+                        role:user.role
 
-    // LOGIN 
-            async login(loginCreds: LoginDTO){
-                try {
-                    let user_db = await this.userRepo.findOne({
-                        where: {email: loginCreds.email}
-                    });
-
-                    if (user_db){
-                        if (user_db.password == loginCreds.password){
-                            return user_db;                    
-                        }
+                    };
+                    console.log(pyload)
+                    const jwt = await this.jwtService.sign(pyload)
+                    return{
+                        "acces token" :jwt 
+                        
                     }
-                    return 'Wrong Creds !';
-                }catch{
-                    throw new HttpException(
-                        'Error Adding User to database',
-                        HttpStatus.BAD_REQUEST
-                    ) 
-                }
-            }
+                  }
+                  else{
+                    
+                    throw new NotFoundException('username ou password erronée ')
+                  }
+                   }
     
     // Get Users 
              async getUser(Creds):Promise<User[]>{
@@ -74,13 +88,12 @@ export class UsersService {
             }
 
 
-    // delete
-            async delete(
-                id:number
-            ){
-            return this.userRepo.delete(id)
-
+            async delete(id:number) {
+                return await this.userRepo.delete(id)
+                
             }
+            
+      
 
 
 

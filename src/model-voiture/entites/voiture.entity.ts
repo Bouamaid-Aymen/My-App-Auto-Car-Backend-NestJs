@@ -6,10 +6,13 @@ import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 export class Mvoiture extends TimeStampEntity { 
 @PrimaryGeneratedColumn()
 Id:number;
+
 @Column()
 Marque:string;
+
 @Column()
 Modele:string;
+
 
 @ManyToOne(
     type =>User,

@@ -1,9 +1,11 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpStatus, Param, ParseIntPipe, Patch, Post, UseGuards } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { LoginDTO } from './dto/login.dto';
 import { User } from './entities/user.entity';
 import { UpDateDTO } from './dto/update.dto';
 import { RegisterDto } from './dto/register.dto';
+import { authPlugins } from 'mysql2';
+import { JwtAuthGuard } from './Guards/jwt.auth.guard';
 
 @Controller('users')
 export class UsersController {
@@ -22,15 +24,16 @@ export class UsersController {
 
     @Post('login')
         async login(
-            @Body() loginCreds: LoginDTO
+            @Body() credentials: LoginDTO
         ){
-            return this.userService.login(loginCreds);
+            return this.userService.login(credentials);
             
         }
         
-    @Post('Admin/get-users')
+    @Get()
+    
         async getUser(
-            @Body()Creds:LoginDTO
+            @Body()Creds
         ):Promise<User[]>{
             return this.userService.getUser(Creds)  
         }
@@ -45,7 +48,12 @@ export class UsersController {
         
     @Delete(':id')
         async delete(
-            @Param('id',ParseIntPipe)id:number
+            @Param('id', new ParseIntPipe(
+                {
+                    errorHttpStatusCode:HttpStatus.NOT_FOUND
+         }
+            )) id:number
+            
         ){
             return this.userService.delete(id)
         }
