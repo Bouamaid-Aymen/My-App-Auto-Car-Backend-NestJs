@@ -1,3 +1,4 @@
+import { IsDate } from "class-validator";
 import { TimeStampEntity } from "src/generics/timestamp.entity";
 import { User } from "src/users/entities/user.entity";
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
@@ -6,12 +7,17 @@ import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 export class Mvoiture extends TimeStampEntity { 
 @PrimaryGeneratedColumn()
 Id:number;
-
 @Column()
-Marque:string;
-
+brand:string;
 @Column()
-Modele:string;
+model:string;
+@Column()
+age:string;
+@Column()
+km:string;
+@Column()
+lastOilChangeDate:string;
+
 
 
 @ManyToOne(

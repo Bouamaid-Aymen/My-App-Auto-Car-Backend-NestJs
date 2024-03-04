@@ -1,6 +1,6 @@
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { PassportStrategy } from '@nestjs/passport';
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { And, Repository } from 'typeorm';
 import { User } from '../entities/user.entity';
@@ -22,19 +22,17 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  async validate(payload: pyloadinterface, credentials: LoginDTO) {
-    const { username } = credentials;
-console.log(payload);
+  async validate(payload: pyloadinterface, context: ExecutionContext) {
+    const { username } = payload;
     const user = await this.userRepository.findOne({ where: { username } });
     
-
-    if (user && user.role === 'ADMIN') {
-        
-        const { password, salt, ...result } = user;
-        return result;
+    if (user) {
+        const request = context.switchToHttp().getRequest();
+        request['userId'] = payload;
+        console.log(request['user']);
+        return true;
     } else {
         throw new UnauthorizedException();
     }
 }
-
 }

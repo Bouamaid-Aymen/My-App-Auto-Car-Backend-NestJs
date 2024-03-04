@@ -49,12 +49,12 @@ export class UsersService {
                   const hashedPassword = await bcrypt.hash( password,user.salt);
                   if(hashedPassword === user.password ){
                     const pyload={
+                        id: user.id,
                         username:user.username,
                         email:user.email,
                         role:user.role
 
                     };
-                    console.log(pyload)
                     const jwt = await this.jwtService.sign(pyload)
                     return{
                         "acces token" :jwt 

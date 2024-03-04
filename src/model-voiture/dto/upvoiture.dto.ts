@@ -1,10 +1,14 @@
-import { IsNotEmpty, IsOptional } from "class-validator";
-
+import {  IsString,IsNotEmpty, IsOptional, isNotEmpty } from "class-validator";
 export class upmvoitureDto{
-@IsOptional()
-Modele:string;
-
-@IsOptional()
-Marque:string;
+    @IsOptional()
+    brand:string;
+    @IsOptional()
+    model:string;
+    @IsOptional()
+    age:string;
+    @IsOptional()
+    km:string;
+    @IsOptional()
+    lastOilChangeDate:string
 
 }

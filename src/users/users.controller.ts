@@ -4,8 +4,6 @@ import { LoginDTO } from './dto/login.dto';
 import { User } from './entities/user.entity';
 import { UpDateDTO } from './dto/update.dto';
 import { RegisterDto } from './dto/register.dto';
-import { authPlugins } from 'mysql2';
-import { JwtAuthGuard } from './Guards/jwt.auth.guard';
 
 @Controller('users')
 export class UsersController {
@@ -31,7 +29,6 @@ export class UsersController {
         }
         
     @Get()
-    
         async getUser(
             @Body()Creds
         ):Promise<User[]>{

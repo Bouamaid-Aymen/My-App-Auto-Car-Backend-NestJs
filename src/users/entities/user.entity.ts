@@ -27,11 +27,14 @@ export class User extends TimeStampEntity {
         default: RoleEnum.USER
     })
     role: RoleEnum
+    
     @OneToMany(
         type => Mvoiture ,
-        (voiture)=>voiture.user
+        (voiture)=>voiture.user,
+        {
+            eager: true
+        }
     )
-    // voiture []
     voiture:Mvoiture;
    
 }
