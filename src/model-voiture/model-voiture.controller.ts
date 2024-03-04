@@ -37,7 +37,6 @@ export class ModelVoitureController {
             @Request() req
         ){
             const userId = req.id;
-            console.log("SUCCESSFUL REQUEST!");
             return this.voitureService.getmyCars(userId);
         }
 

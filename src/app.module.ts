@@ -6,6 +6,7 @@ import { UsersModule } from './users/users.module';
 
 import * as dotenv from 'dotenv';
 import { ModelVoitureModule } from './model-voiture/model-voiture.module';
+import { VoitureModule } from './voiture/voiture.module';
 dotenv.config();
 
 
@@ -21,7 +22,7 @@ dotenv.config();
       entities: ['dist/**/*.entity{.ts,.js}'],//RegEx (Regular Expressions)
       synchronize: true,
     }
-  ), UsersModule,ModelVoitureModule,
+  ), UsersModule,ModelVoitureModule, VoitureModule,
   ],
   controllers: [AppController],
   providers: [AppService],
