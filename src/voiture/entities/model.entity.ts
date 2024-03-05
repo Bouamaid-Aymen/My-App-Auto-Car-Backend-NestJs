@@ -13,6 +13,7 @@ export class modelEntity{
         type=>brandEntity,
         (brand)=>brand.model,
         {
+           
         }
     )
     brand:brandEntity;

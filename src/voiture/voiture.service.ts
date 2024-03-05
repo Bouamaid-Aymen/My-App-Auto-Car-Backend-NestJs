@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
 import { brandEntity } from './entities/brand.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -22,14 +22,46 @@ export class VoitureService {
       return await this.brandRep.save(brand);
     
     }
-    async addBrandmodel(Creds:modelEntity,brandId:number){
-        const brand=await this.brandRep.findOne({where:{id:brandId}});
-        const model= await this.modelRep.create({
-
-            ...Creds
+    async addBrandTomodel(Nmodel:modelEntity,brandId){
+        const brand=await this.brandRep.findOne({where:{model:brandId}});
+        if(!brand){
+          throw new Error("Brand not found");
+        }
+       
+      const newModel = new modelEntity();
+      newModel.name = Nmodel.name;
+      newModel.brand = brandId;
+        return await this.modelRep.save(newModel);
+    }
+    async getbrandmodel(brandId){
+      try{
+        let brand= await this.brandRep.findOne({
+          where:{id:brandId}
         })
-        return await this.modelRep.save(model);
+        if(brand){
+          
+          return brand
+        }else{
+          throw new HttpException(
+              "Brand not found",
+              HttpStatus.NOT_FOUND
+          )
+      }
+      }catch{
+        throw new HttpException(
+          "Error fetching model",
+          HttpStatus.BAD_REQUEST
+      )
+      } 
+      }
+      async updatebrand(brand:brandDto,id){
+        const new_brand= await this.brandRep.preload({
+          id,
+          ...brand
+        });
+        return this.brandRep.save(new_brand)
+      }
     }
 
     
-}
+    

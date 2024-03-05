@@ -5,6 +5,7 @@ export class modeldDto{
         
     })
     name:string;
+    brand:number;
 
 
 }
