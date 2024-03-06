@@ -1,4 +1,4 @@
-import { Body, Controller, Param, ParseIntPipe, Post, Get, Patch } from '@nestjs/common';
+import { Body, Controller, Param, ParseIntPipe, Post, Get, Patch, Delete } from '@nestjs/common';
 import { brandDto } from './dto/brand.dto';
 import { VoitureService } from './voiture.service';
 import { modeldDto } from './dto/model.dto';
@@ -11,6 +11,10 @@ export class VoitureController {
     constructor(
         private readonly serviceCar:VoitureService
     ){}
+    @Get('brand')
+    async brand(){
+        return await this.serviceCar.getbrand()
+    }
     @Post('brand')
     async addBrandCar(
         @Body()brand:brandDto
@@ -31,11 +35,17 @@ export class VoitureController {
     return this.serviceCar.getbrandmodel(id)
     }
     @Patch(':id')
-    async updatebrand(
+    async modifybrand(
         @Body()brand:modeldDto,
         @Param('id',ParseIntPipe)id
     ){
-        return await this.serviceCar.updatebrand(brand,id);
+        return await this.serviceCar.modifybrand(brand,id);
+    }
+    @Delete(':id')
+    async deleteBrand(
+        @Param('id',ParseIntPipe)idB
+    ){
+return await this.serviceCar.deleteBrand(idB);
     }
 
 }

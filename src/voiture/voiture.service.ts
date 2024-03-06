@@ -54,13 +54,30 @@ export class VoitureService {
       )
       } 
       }
-      async updatebrand(brand:brandDto,id){
+      async modifybrand(brand:brandDto,id){
         const new_brand= await this.brandRep.preload({
           id,
           ...brand
         });
         return this.brandRep.save(new_brand)
       }
+
+     
+      
+      async getbrand(){
+        const brand = this.brandRep.find()   
+      return brand
+      
+      
+      }
+      async deleteBrand(idB){
+        const brand=await this.brandRep.findOne({
+          where:{id:idB}
+        });
+      
+        return await this.brandRep.remove(brand);
+      }
+    
     }
 
     
