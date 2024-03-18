@@ -4,6 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { brandDto } from './dto/brand.dto';
 import { modelEntity } from './entities/model.entity';
+import { modeldDto } from './dto/model.dto';
 
 @Injectable()
 
@@ -70,15 +71,29 @@ export class VoitureService {
       
       
       }
-      async deleteBrand(idB){
+      async deleteBrand(idB: number){
         const brand=await this.brandRep.findOne({
           where:{id:idB}
         });
-      
+       
         return await this.brandRep.remove(brand);
       }
+
+      async getmodel(){
+        const model= this.modelRep.find()   
+      return model;
     
     }
+     async addmodel(model:modeldDto,idB){
+      const brand= await this.brandRep.findOne({
+        where :{id:idB}
+      });
+      const new_model=await this.modelRep.create({
+        ...model
+      })
+      return await this.modelRep.save(new_model);
+     }
+  }
 
     
     

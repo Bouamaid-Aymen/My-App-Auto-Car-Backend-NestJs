@@ -4,6 +4,8 @@ import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { MvoitureDto } from './dto/add_voiture.dto';
 import { User } from 'src/users/entities/user.entity';
+import { MaintenanceEntity } from './entites/Maintenance.entity';
+import { maintenaceDto } from './dto/maintenance.dto';
 
 @Injectable()
 export class ModelVoitureService {
@@ -12,7 +14,10 @@ export class ModelVoitureService {
         @InjectRepository(Mvoiture)
         private readonly voitureRepo: Repository<Mvoiture>,
         @InjectRepository(User)
-        private readonly userRepo: Repository<User>
+        private readonly userRepo: Repository<User>,
+        @InjectRepository(MaintenanceEntity)
+        private readonly mainRepo: Repository<MaintenanceEntity>
+        
     ){
 
     }
@@ -64,6 +69,24 @@ async getvoiture(Creds):Promise<Mvoiture[]>{
 
  async delete(id){
     return this.voitureRepo.delete(id)
+ }
+ 
+ async maitenance(id,cahier:maintenaceDto){
+    const voiture=await this.voitureRepo.findOne({
+        where:{Id:id}
+    })
+    if(voiture){
+        const maintenace=await this.mainRepo.create({
+            voiture,
+            ...cahier
+        });
+        return await this.mainRepo.save(maintenace);
+    }
+
+ }
+ async fetchmaintenance(){
+    const main= await this.mainRepo.find()
+    return main
  }
 
 }

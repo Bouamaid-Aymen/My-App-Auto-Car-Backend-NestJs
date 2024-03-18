@@ -10,12 +10,15 @@ id:number;
     { unique:true}
 )
 name:string;
+
 @OneToMany(
     type => modelEntity ,
     (model)=>model.brand,
     {
-        eager: true
+        eager: true,
+        onDelete: "CASCADE"        
+        
     }
 )
-model:modelEntity;
+model:modelEntity[];
 }

@@ -11,6 +11,12 @@ export class VoitureController {
     constructor(
         private readonly serviceCar:VoitureService
     ){}
+
+    @Get('model')
+    async getmodel(){
+        return await this.serviceCar.getmodel()  
+     }
+
     @Get('brand')
     async brand(){
         return await this.serviceCar.getbrand()

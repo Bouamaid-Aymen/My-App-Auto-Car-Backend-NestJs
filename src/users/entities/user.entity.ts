@@ -32,7 +32,8 @@ export class User extends TimeStampEntity {
         type => Mvoiture ,
         (voiture)=>voiture.user,
         {
-            eager: true
+            eager: true,
+            onDelete: "CASCADE"
         }
     )
     voiture:Mvoiture;

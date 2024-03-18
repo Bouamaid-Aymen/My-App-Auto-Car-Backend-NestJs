@@ -4,6 +4,7 @@ import { ModelVoitureService } from './model-voiture.service';
 import { upmvoitureDto } from './dto/upvoiture.dto';
 import { MvoitureDto } from './dto/add_voiture.dto';
 import { UserGuardGuard } from 'src/guards/user-guard/user-guard.guard';
+import { maintenaceDto } from './dto/maintenance.dto';
 
 @Controller('voiture')
 
@@ -11,6 +12,17 @@ export class ModelVoitureController {
     constructor(
         private readonly voitureService:ModelVoitureService
     ){}
+    @Get()
+    async fetchmaintenance(){
+        return await this.voitureService.fetchmaintenance();
+    }
+    @Post(':id/maintenance')
+    async maintenance(
+        @Body()cahier:maintenaceDto,
+        @Param('id',)id
+    ){
+        return await this.voitureService.maitenance(id,cahier);
+    }
 
     @UseGuards(UserGuardGuard)
     @Post('add')

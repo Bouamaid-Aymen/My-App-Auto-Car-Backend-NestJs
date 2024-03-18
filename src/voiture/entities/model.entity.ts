@@ -13,7 +13,7 @@ export class modelEntity{
         type=>brandEntity,
         (brand)=>brand.model,
         {
-           
+            onDelete: "CASCADE"   
         }
     )
     brand:brandEntity;

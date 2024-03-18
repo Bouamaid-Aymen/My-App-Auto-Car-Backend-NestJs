@@ -5,9 +5,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Mvoiture } from './entites/voiture.entity';
 import { User } from 'src/users/entities/user.entity';
 import { JwtService } from '@nestjs/jwt';
+import { MaintenanceEntity } from './entites/Maintenance.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Mvoiture, User])],
+  imports: [TypeOrmModule.forFeature([Mvoiture, User,MaintenanceEntity])],
     controllers: [ModelVoitureController],
   providers: [ModelVoitureService, JwtService]
 })

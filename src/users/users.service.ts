@@ -7,6 +7,7 @@ import * as bcrypt from 'bcrypt';
 import { RegisterDto } from './dto/register.dto';
 import { JwtService } from '@nestjs/jwt';
 import { ExceptionsHandler } from '@nestjs/core/exceptions/exceptions-handler';
+import { use } from 'passport';
 
 @Injectable()
 export class UsersService {
@@ -57,7 +58,9 @@ export class UsersService {
                     };
                     const jwt = await this.jwtService.sign(pyload)
                     return{
-                        "acces token" :jwt 
+                        "acces token" :jwt ,
+                        "role": user.role,
+                        "email":user.email
                         
                     }
                   }
@@ -88,11 +91,13 @@ export class UsersService {
             }
 
 
-            async delete(id:number) {
-                return await this.userRepo.delete(id)
-                
-            }
-            
+            async deleteuser(id: number){
+                const brand=await this.userRepo.findOne({
+                  where:{id:id}
+                });
+               
+                return await this.userRepo.remove(brand);
+              }
       
 
 

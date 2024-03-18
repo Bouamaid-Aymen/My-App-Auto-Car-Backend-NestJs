@@ -52,7 +52,7 @@ export class UsersController {
             )) id:number
             
         ){
-            return this.userService.delete(id)
+            return await this.userService.deleteuser(id);
         }
     
 }

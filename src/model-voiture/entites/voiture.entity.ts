@@ -1,7 +1,8 @@
 import { IsDate } from "class-validator";
 import { TimeStampEntity } from "src/generics/timestamp.entity";
 import { User } from "src/users/entities/user.entity";
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { MaintenanceEntity } from "./Maintenance.entity";
 
 @Entity('model-voiture')
 export class Mvoiture extends TimeStampEntity { 
@@ -22,6 +23,18 @@ lastOilChangeDate:string;
 
 @ManyToOne(
     type =>User,
-    (user)=>user.voiture)
+    (user)=>user.voiture,
+    {
+        onDelete:"CASCADE"
+    })
+
 user:User;
+@OneToMany(
+    type=>MaintenanceEntity,
+    (maintenace)=>maintenace.voiture,
+    {
+        onDelete: "CASCADE"  
+    }
+)
+maintenance:MaintenanceEntity;
 }
