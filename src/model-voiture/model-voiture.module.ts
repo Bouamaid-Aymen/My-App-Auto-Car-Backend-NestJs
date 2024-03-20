@@ -6,6 +6,7 @@ import { Mvoiture } from './entites/voiture.entity';
 import { User } from 'src/users/entities/user.entity';
 import { JwtService } from '@nestjs/jwt';
 import { MaintenanceEntity } from './entites/Maintenance.entity';
+import { Voyant } from '../voiture/entities/voyant.entity';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Mvoiture, User,MaintenanceEntity])],

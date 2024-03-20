@@ -5,12 +5,18 @@ import { modeldDto } from './dto/model.dto';
 import { modelEntity } from './entities/model.entity';
 import { promises } from 'dns';
 import { Pool } from 'mysql2/typings/mysql/lib/Pool';
+import { voyantdto } from './dto/voyant.dto';
+import { Uvoyantdto } from './dto/Uvoyant.dto';
 
 @Controller('car')
 export class VoitureController {
     constructor(
         private readonly serviceCar:VoitureService
     ){}
+    @Get('voyant')
+    async getvoy(){
+        return this.serviceCar.getvoyant()
+    }
 
     @Get('model')
     async getmodel(){
@@ -54,4 +60,25 @@ export class VoitureController {
 return await this.serviceCar.deleteBrand(idB);
     }
 
+    @Post('voyant')
+    async addvoy(
+        @Body()voyant:voyantdto
+    ){
+        return this.serviceCar.addVoy(voyant)
+    }
+    @Patch(':id/voyant')
+    async upVoy(
+        @Param('id',ParseIntPipe)id:number,
+        @Body()upVoy:Uvoyantdto
+    ){
+        return await this.serviceCar.editvoyant(id,upVoy)
+
+    }
+    @Delete(':id/voyant')
+    async deleteV(
+        @Param('id',ParseIntPipe)id:number
+
+    ){
+        return this.serviceCar.deleteV(id);
+    }
 }

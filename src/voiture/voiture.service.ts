@@ -5,6 +5,9 @@ import { Repository } from 'typeorm';
 import { brandDto } from './dto/brand.dto';
 import { modelEntity } from './entities/model.entity';
 import { modeldDto } from './dto/model.dto';
+import { Voyant } from './entities/voyant.entity';
+import { voyantdto } from './dto/voyant.dto';
+import { Uvoyantdto } from './dto/Uvoyant.dto';
 
 @Injectable()
 
@@ -13,7 +16,9 @@ export class VoitureService {
         @InjectRepository(brandEntity)
         private readonly brandRep:Repository<brandEntity>,
         @InjectRepository(modelEntity)
-        private  readonly modelRep:Repository<modelEntity>
+        private  readonly modelRep:Repository<modelEntity>,
+        @InjectRepository(Voyant)
+        private readonly voyantRepo:Repository<Voyant>
         
     ){}
     async addBrand(Creds:brandDto):Promise<brandEntity>{
@@ -93,6 +98,34 @@ export class VoitureService {
       })
       return await this.modelRep.save(new_model);
      }
+
+     async addVoy(voyant:voyantdto):Promise<Voyant>{
+      const voy =await this.voyantRepo.create({
+          ...voyant
+      })
+      return await this.voyantRepo.save(voy);
+  
+   }
+   async getvoyant(){
+    const Lvoy=await this.voyantRepo.find()
+    return Lvoy
+   }
+   async editvoyant(id:number,newV:Uvoyantdto){
+    const editV=await this.voyantRepo.preload({
+      id,
+      ...newV
+
+    })
+    return await this.voyantRepo.save(editV)
+   }
+   async deleteV(id:number){
+    const v = await this.voyantRepo.findOne({
+      where:{id:id}
+    })
+    if(v){
+      return await this.voyantRepo.delete(v)
+    }
+   }
   }
 
     

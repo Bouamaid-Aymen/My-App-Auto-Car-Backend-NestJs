@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, NotFoundException, Post } from '@nestjs/common';
 import { Mvoiture } from './entites/voiture.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -6,6 +6,8 @@ import { MvoitureDto } from './dto/add_voiture.dto';
 import { User } from 'src/users/entities/user.entity';
 import { MaintenanceEntity } from './entites/Maintenance.entity';
 import { maintenaceDto } from './dto/maintenance.dto';
+import { Voyant } from '../voiture/entities/voyant.entity';
+import { voyantdto } from '../voiture/dto/voyant.dto';
 
 @Injectable()
 export class ModelVoitureService {
@@ -16,7 +18,7 @@ export class ModelVoitureService {
         @InjectRepository(User)
         private readonly userRepo: Repository<User>,
         @InjectRepository(MaintenanceEntity)
-        private readonly mainRepo: Repository<MaintenanceEntity>
+        private readonly mainRepo: Repository<MaintenanceEntity>,
         
     ){
 
@@ -88,5 +90,8 @@ async getvoiture(Creds):Promise<Mvoiture[]>{
     const main= await this.mainRepo.find()
     return main
  }
+
+ 
+
 
 }

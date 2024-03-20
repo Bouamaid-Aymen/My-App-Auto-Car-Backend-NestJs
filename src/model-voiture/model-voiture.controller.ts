@@ -5,6 +5,7 @@ import { upmvoitureDto } from './dto/upvoiture.dto';
 import { MvoitureDto } from './dto/add_voiture.dto';
 import { UserGuardGuard } from 'src/guards/user-guard/user-guard.guard';
 import { maintenaceDto } from './dto/maintenance.dto';
+import { voyantdto } from '../voiture/dto/voyant.dto';
 
 @Controller('voiture')
 
@@ -59,5 +60,8 @@ export class ModelVoitureController {
             ){
                 return this.voitureService.delete(id)
             }
+   
+
+
 
 }
