@@ -9,6 +9,8 @@ export class Voyant{
     nom:string;
     @Column()
     description:string;
+    @Column()
+    image:string;
 
 
 }

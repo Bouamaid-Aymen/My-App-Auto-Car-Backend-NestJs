@@ -8,6 +8,8 @@ import { modeldDto } from './dto/model.dto';
 import { Voyant } from './entities/voyant.entity';
 import { voyantdto } from './dto/voyant.dto';
 import { Uvoyantdto } from './dto/Uvoyant.dto';
+import { serviceEntity } from './entities/service.entity';
+import { serviceDto } from './dto/service.dto';
 
 @Injectable()
 
@@ -18,7 +20,9 @@ export class VoitureService {
         @InjectRepository(modelEntity)
         private  readonly modelRep:Repository<modelEntity>,
         @InjectRepository(Voyant)
-        private readonly voyantRepo:Repository<Voyant>
+        private readonly voyantRepo:Repository<Voyant>,
+        @InjectRepository(serviceEntity)
+        private readonly serviceResp:Repository<serviceEntity>
         
     ){}
     async addBrand(Creds:brandDto):Promise<brandEntity>{
@@ -126,6 +130,22 @@ export class VoitureService {
       return await this.voyantRepo.delete(v)
     }
    }
+   async addService(Creds:serviceDto):Promise<serviceEntity>{
+    const services= await this.serviceResp.create({
+      ...Creds
+    })
+    return await this.brandRep.save(services);
+  
+  }
+  async deleteservice(idB: number){
+    const services=await this.serviceResp.findOne({
+      where:{id:idB}
+    });
+   
+    return await this.serviceResp.remove(services);
+  }
+
+   
   }
 
     

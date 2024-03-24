@@ -6,5 +6,6 @@ export class voyantdto{
 nom:string;
 @IsNotEmpty()
 description:string;
-
+@IsNotEmpty()
+image:string;
 }

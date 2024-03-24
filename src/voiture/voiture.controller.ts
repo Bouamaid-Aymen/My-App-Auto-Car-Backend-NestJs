@@ -7,6 +7,7 @@ import { promises } from 'dns';
 import { Pool } from 'mysql2/typings/mysql/lib/Pool';
 import { voyantdto } from './dto/voyant.dto';
 import { Uvoyantdto } from './dto/Uvoyant.dto';
+import { serviceDto } from './dto/service.dto';
 
 @Controller('car')
 export class VoitureController {
@@ -81,4 +82,18 @@ return await this.serviceCar.deleteBrand(idB);
     ){
         return this.serviceCar.deleteV(id);
     }
+    @Post('service')
+    async addS(
+        @Body()crdes:serviceDto
+    ){
+        return this.serviceCar.addService(crdes)
+    }
+    @Delete(':id')
+    async delelteS(
+        @Param('id',ParseIntPipe)id:number
+    ){
+        return await this.serviceCar.deleteservice(id)
+        
+    }
+    
 }
