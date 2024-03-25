@@ -10,6 +10,7 @@ import { voyantdto } from './dto/voyant.dto';
 import { Uvoyantdto } from './dto/Uvoyant.dto';
 import { serviceEntity } from './entities/service.entity';
 import { serviceDto } from './dto/service.dto';
+import { VerificationEnum } from 'src/enums/verification.enums';
 
 @Injectable()
 
@@ -134,7 +135,7 @@ export class VoitureService {
     const services= await this.serviceResp.create({
       ...Creds
     })
-    return await this.brandRep.save(services);
+    return await this.serviceResp.save(services);
   
   }
   async deleteservice(idB: number){
@@ -144,7 +145,25 @@ export class VoitureService {
    
     return await this.serviceResp.remove(services);
   }
+async getservice(){
+  const service=await this.serviceResp.find(
 
+  )
+  return await service;
+}
+async upv(id:number){
+  const service =await this.serviceResp.findOne({
+    where:{id:id}
+  })
+  if(service){
+    const ser=await this.serviceResp.preload({
+      id,
+      verifier:VerificationEnum.VERIFIER
+    })
+    return this.serviceResp.save(ser)
+  }
+  
+}
    
   }
 

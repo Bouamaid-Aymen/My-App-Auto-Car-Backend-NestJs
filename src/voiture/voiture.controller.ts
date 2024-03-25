@@ -14,6 +14,10 @@ export class VoitureController {
     constructor(
         private readonly serviceCar:VoitureService
     ){}
+    @Get('service')
+    async getservice(){
+        return await this.serviceCar.getservice();
+    }
     @Get('voyant')
     async getvoy(){
         return this.serviceCar.getvoyant()
@@ -88,12 +92,18 @@ return await this.serviceCar.deleteBrand(idB);
     ){
         return this.serviceCar.addService(crdes)
     }
-    @Delete(':id')
+    @Delete(':id/service')
     async delelteS(
         @Param('id',ParseIntPipe)id:number
     ){
         return await this.serviceCar.deleteservice(id)
         
+    }
+    @Patch(':id/service')
+    async upv(
+        @Param('id',ParseIntPipe)id:number
+    ){
+        return this.serviceCar.upv(id)
     }
     
 }

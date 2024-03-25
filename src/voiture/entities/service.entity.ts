@@ -11,7 +11,9 @@ export class serviceEntity {
     @Column()
     nomP:string;
     @Column()
-    tel :string;
+    tel :number;
+    @Column()
+    adress :string;
     @Column({
         default : VerificationEnum.NON_VERIFIER
     }
