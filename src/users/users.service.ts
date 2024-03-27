@@ -8,6 +8,7 @@ import { RegisterDto } from './dto/register.dto';
 import { JwtService } from '@nestjs/jwt';
 import { ExceptionsHandler } from '@nestjs/core/exceptions/exceptions-handler';
 import { use } from 'passport';
+import { UpDateDTO } from './dto/update.dto';
 
 @Injectable()
 export class UsersService {
@@ -98,9 +99,27 @@ export class UsersService {
                
                 return await this.userRepo.remove(brand);
               }
-      
 
+            async MDP(updateCreds:UpDateDTO){
+                const user = await this.userRepo.findOne({
+                    where:{email:updateCreds.email}
+                })
+                  if( !user){
+                    throw new NotFoundException('username ou password erronée ')
+                  }
 
+                  const hashedPassword = await bcrypt.hash( updateCreds.oldPassword, user.salt);
 
+                  if(hashedPassword === user.password ){
+                    let newPass = await bcrypt.hash( updateCreds.newPassword, user.salt);
+                    user.password = newPass;
+                    return this.userRepo.save(user);
+                }else{
+                    throw new HttpException(
+                        "Worng Creds",
+                        HttpStatus.BAD_REQUEST, 
 
+                    )
+                }
+        }
 }

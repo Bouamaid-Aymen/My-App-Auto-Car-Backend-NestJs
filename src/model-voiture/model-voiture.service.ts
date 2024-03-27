@@ -91,6 +91,14 @@ async getvoiture(Creds):Promise<Mvoiture[]>{
     return main
  }
 
+ async fetchM (id:number){
+    const Car =await this.voitureRepo.findOne({
+        where:{Id:id
+        }
+        , relations: ["maintenance"]
+    })
+    return Car.maintenance;
+ }
  
 
 

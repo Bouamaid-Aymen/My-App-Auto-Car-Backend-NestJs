@@ -54,5 +54,13 @@ export class UsersController {
         ){
             return await this.userService.deleteuser(id);
         }
+        @Post('update-password')
+        async MDP(
+            @Body() updateCreds: UpDateDTO ,
+        ){
+            return await this.userService.MDP(updateCreds);
+        }
+
+
     
 }

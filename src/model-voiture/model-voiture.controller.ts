@@ -13,7 +13,13 @@ export class ModelVoitureController {
     constructor(
         private readonly voitureService:ModelVoitureService
     ){}
-    @Get()
+    @Get(':id/maintenance')
+    async getM(
+        @Param('id',ParseIntPipe)id:number
+    ){
+        return await this.voitureService.fetchM(id)
+    }
+    @Get('maintenance')
     async fetchmaintenance(){
         return await this.voitureService.fetchmaintenance();
     }
@@ -60,6 +66,7 @@ export class ModelVoitureController {
             ){
                 return this.voitureService.delete(id)
             }
+        
    
 
 

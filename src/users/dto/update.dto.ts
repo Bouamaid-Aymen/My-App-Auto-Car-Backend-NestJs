@@ -8,10 +8,13 @@ export class UpDateDTO {
 
     @IsNotEmpty()
     @IsEmail()
-    @IsOptional()
     email: string;
 
     @IsNotEmpty()
-    @MinLength(8)
-    password: string;
+    @IsString()
+    oldPassword: string;
+
+    @IsNotEmpty()
+    @IsString()
+    newPassword: string;
 }
