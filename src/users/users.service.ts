@@ -9,13 +9,18 @@ import { JwtService } from '@nestjs/jwt';
 import { ExceptionsHandler } from '@nestjs/core/exceptions/exceptions-handler';
 import { use } from 'passport';
 import { UpDateDTO } from './dto/update.dto';
+import { serviceDto } from 'src/voiture/dto/service.dto';
+import { serviceEntity } from 'src/voiture/entities/service.entity';
 
 @Injectable()
 export class UsersService {
     constructor(
         @InjectRepository(User)
         private readonly userRepo: Repository<User>,
-        private readonly jwtService:JwtService  
+        private readonly jwtService:JwtService,
+    
+        
+
     ){}
 
     // REGISTER 
@@ -122,4 +127,7 @@ export class UsersService {
                     )
                 }
         }
+        
+
+        
 }

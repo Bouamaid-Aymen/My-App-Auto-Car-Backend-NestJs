@@ -6,7 +6,5 @@ export class Uvoyantdto{
 nom:string;
 @IsOptional()
 description:string;
-@IsOptional()
-image:string;
 
 }

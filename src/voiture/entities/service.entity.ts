@@ -12,10 +12,12 @@ export class serviceEntity {
     nomP:string;
     @Column()
     tel :number;
-    @Column()
+    @Column({
+        unique:true
+    })
     adress :string;
     @Column({
-        default : VerificationEnum.NON_VERIFIER
+        default : VerificationEnum.EN_ATTENTE
     }
     
     )

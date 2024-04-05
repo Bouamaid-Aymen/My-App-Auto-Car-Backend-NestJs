@@ -11,6 +11,7 @@ import { Uvoyantdto } from './dto/Uvoyant.dto';
 import { serviceEntity } from './entities/service.entity';
 import { serviceDto } from './dto/service.dto';
 import { VerificationEnum } from 'src/enums/verification.enums';
+import { serviceUPDto } from './dto/serviceUP.dto';
 
 @Injectable()
 
@@ -164,8 +165,29 @@ async upv(id:number){
   }
   
 }
+async upN(id:number){
+  const service =await this.serviceResp.findOne({
+    where:{id:id}
+  })
+  if(service){
+    const ser=await this.serviceResp.preload({
+      id,
+      verifier:VerificationEnum.NON_VERIFIER
+    })
+    return this.serviceResp.save(ser)
+  }
    
   }
+  async serviceUp(id:number,service:serviceUPDto){
+    const serU=await this.serviceResp.preload({
+      id,
+      ...service
+
+    })
+    return await this.serviceResp.save(serU);
+  }
+
+}
 
     
     

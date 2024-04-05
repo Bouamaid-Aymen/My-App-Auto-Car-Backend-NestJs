@@ -8,6 +8,7 @@ import { JwtModule } from '@nestjs/jwt';
 import * as dotenv from 'dotenv';
 import { JwtStrategy } from './strategy/passport-jwt.strategy';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { serviceEntity } from 'src/voiture/entities/service.entity';
 
 dotenv.config();
 @Module({

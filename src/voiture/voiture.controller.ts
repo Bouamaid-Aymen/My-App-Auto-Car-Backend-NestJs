@@ -8,6 +8,7 @@ import { Pool } from 'mysql2/typings/mysql/lib/Pool';
 import { voyantdto } from './dto/voyant.dto';
 import { Uvoyantdto } from './dto/Uvoyant.dto';
 import { serviceDto } from './dto/service.dto';
+import { serviceUPDto } from './dto/serviceUP.dto';
 
 @Controller('car')
 export class VoitureController {
@@ -105,5 +106,17 @@ return await this.serviceCar.deleteBrand(idB);
     ){
         return this.serviceCar.upv(id)
     }
-    
+    @Patch(':id/serviceN')
+    async upN(
+        @Param('id',ParseIntPipe)id:number
+    ){
+        return this.serviceCar.upN(id)
+    }
+    @Patch(':id/Modifier')
+    async serviceU(
+        @Body()Creds:serviceUPDto,
+        @Param('id',ParseIntPipe)id:number
+    ){
+        return await this.serviceCar.serviceUp(id,Creds)
+    }
 }

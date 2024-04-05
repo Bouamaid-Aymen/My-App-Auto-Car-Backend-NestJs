@@ -99,6 +99,15 @@ async getvoiture(Creds):Promise<Mvoiture[]>{
     })
     return Car.maintenance;
  }
+ async suppMain(id:number){
+    const Car =await this.mainRepo.findOne({
+        where:{id:id
+        }
+
+    })
+    return this.mainRepo.delete(id)
+
+ }
  
 
 

@@ -66,7 +66,13 @@ export class ModelVoitureController {
             ){
                 return this.voitureService.delete(id)
             }
-        
+            @Delete(':id/maitenance')
+    
+            async deleteM(
+                @Param('id',ParseIntPipe)id:number
+            ){
+                return this.voitureService.suppMain(id)
+            }
    
 
 

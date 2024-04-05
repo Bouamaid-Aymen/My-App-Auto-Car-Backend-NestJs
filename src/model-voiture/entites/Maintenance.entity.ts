@@ -25,7 +25,10 @@ export class MaintenanceEntity {
     autre:string;
     @ManyToOne(
         type=>Mvoiture,
-        (voiture)=>voiture.maintenance)
+        (voiture)=>voiture.maintenance,
+        {
+            onDelete: "CASCADE"  
+        })
         voiture:Mvoiture;
 
 }
