@@ -6,9 +6,10 @@ import { brandEntity } from './entities/brand.entity';
 import { modelEntity } from './entities/model.entity';
 import { Voyant } from './entities/voyant.entity';
 import { serviceEntity } from './entities/service.entity';
+import { User } from 'src/users/entities/user.entity';
 
 @Module({
-  imports:[TypeOrmModule.forFeature([brandEntity,modelEntity,Voyant,serviceEntity])],
+  imports:[TypeOrmModule.forFeature([brandEntity,modelEntity,Voyant,serviceEntity,User])],
   controllers: [VoitureController],
   providers: [VoitureService]
 })

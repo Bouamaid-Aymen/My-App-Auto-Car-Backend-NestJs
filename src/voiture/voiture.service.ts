@@ -12,6 +12,9 @@ import { serviceEntity } from './entities/service.entity';
 import { serviceDto } from './dto/service.dto';
 import { VerificationEnum } from 'src/enums/verification.enums';
 import { serviceUPDto } from './dto/serviceUP.dto';
+import { User } from 'src/users/entities/user.entity';
+import * as bcrypt from 'bcrypt';
+import { RoleEnum } from 'src/enums/role.enum';
 
 @Injectable()
 
@@ -24,8 +27,9 @@ export class VoitureService {
         @InjectRepository(Voyant)
         private readonly voyantRepo:Repository<Voyant>,
         @InjectRepository(serviceEntity)
-        private readonly serviceResp:Repository<serviceEntity>
-        
+        private readonly serviceResp:Repository<serviceEntity>,
+        @InjectRepository(User)
+        private readonly userRepo:Repository<User>,
     ){}
     async addBrand(Creds:brandDto):Promise<brandEntity>{
       const brand= await this.brandRep.create({
@@ -135,9 +139,16 @@ export class VoitureService {
    async addService(Creds:serviceDto):Promise<serviceEntity>{
     const services= await this.serviceResp.create({
       ...Creds
-    })
+    });
+    const userdb = new User();
+    userdb.email = Creds.email;
+    userdb.username = Creds.nomP;
+    userdb.salt = await bcrypt.genSalt();
+    userdb.password = await bcrypt.hash(Creds.password,userdb.salt);
+    userdb.role = RoleEnum.SERVICE;
+
+    await this.userRepo.save(userdb);
     return await this.serviceResp.save(services);
-  
   }
   async deleteservice(idB: number){
     const services=await this.serviceResp.findOne({
@@ -186,6 +197,26 @@ async upN(id:number){
     })
     return await this.serviceResp.save(serU);
   }
+  async verif(email: string) {
+    const services = await this.serviceResp.findOne({
+      where: { email: email }
+    });
+
+   
+ 
+
+   
+      
+      if (services.verifier === "NON") {
+        return { statusCode:400 , message: 'Utilisateur non vérifié' };
+      }
+    
+
+    return { statusCode: 200, message: 'Tous les utilisateurs sont vérifiés' };
+}
+
+
+
 
 }
 

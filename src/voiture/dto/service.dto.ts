@@ -10,8 +10,9 @@ export class serviceDto{
     @IsNotEmpty()
     nomP:string;
     @IsNotEmpty()
-  
     tel :number;
     @IsNotEmpty()
     adress :string;
+    @IsNotEmpty()
+    password: string;
 }

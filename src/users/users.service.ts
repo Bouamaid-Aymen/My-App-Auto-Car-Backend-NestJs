@@ -17,6 +17,8 @@ export class UsersService {
     constructor(
         @InjectRepository(User)
         private readonly userRepo: Repository<User>,
+        @InjectRepository(serviceEntity)
+        private readonly serviceResp:Repository<serviceEntity>,
         private readonly jwtService:JwtService,
     
         
@@ -55,6 +57,16 @@ export class UsersService {
                   }
                   const hashedPassword = await bcrypt.hash( password,user.salt);
                   if(hashedPassword === user.password ){
+                    const userService = await this.serviceResp.findOne({
+                        where:{email:user.email}
+                    });
+                  
+                    if (userService && userService.verifier == "NON"){
+                        throw new HttpException(
+                            'service non verifié',
+                            HttpStatus.BAD_REQUEST  
+                        )
+                    }
                     const pyload={
                         id: user.id,
                         username:user.username,

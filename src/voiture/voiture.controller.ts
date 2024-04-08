@@ -15,6 +15,13 @@ export class VoitureController {
     constructor(
         private readonly serviceCar:VoitureService
     ){}
+    @Post(':email/service')
+    async getserviceV(
+        @Param('email')email:string
+    ){
+        return await this.serviceCar.verif(email);
+    }
+
     @Get('service')
     async getservice(){
         return await this.serviceCar.getservice();

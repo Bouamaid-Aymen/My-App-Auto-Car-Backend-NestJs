@@ -12,7 +12,7 @@ import { serviceEntity } from 'src/voiture/entities/service.entity';
 
 dotenv.config();
 @Module({
-  imports: [TypeOrmModule.forFeature([User]),
+  imports: [TypeOrmModule.forFeature([User,serviceEntity]),
 PassportModule.register({
   defaultStrategy :'jwt'
 }),JwtModule.register({ 
