@@ -1,4 +1,4 @@
-import { IsEmail, IsNotEmpty, IsNumber, IsOptional } from "class-validator";
+import { IsEmail, IsOptional } from "class-validator";
 import { VerificationEnum } from "src/enums/verification.enums";
 
 export class serviceUPDto{
@@ -9,9 +9,14 @@ export class serviceUPDto{
     nomS : string; 
     @IsOptional()
     nomP:string;
-    @IsOptional()
-  
+    @IsOptional()  
     tel :number;
     @IsOptional()
-    adress :string;
+    gouvernorat:string;
+    @IsOptional()
+    ville:string;
+    @IsOptional()
+    description:string;
+    @IsOptional()
+    localisation:string;
 }

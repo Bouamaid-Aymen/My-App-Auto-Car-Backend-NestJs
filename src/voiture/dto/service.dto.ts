@@ -1,4 +1,4 @@
-import { IsEmail, IsNotEmpty, IsNumber } from "class-validator";
+import { IsEmail, IsNotEmpty, IsNumber, IsOptional } from "class-validator";
 import { VerificationEnum } from "src/enums/verification.enums";
 
 export class serviceDto{
@@ -12,7 +12,13 @@ export class serviceDto{
     @IsNotEmpty()
     tel :number;
     @IsNotEmpty()
-    adress :string;
+    gouvernorat:string;
+    @IsNotEmpty()
+    ville:string;
+    @IsNotEmpty()
+    description:string;
     @IsNotEmpty()
     password: string;
+    @IsOptional()
+    localisation:string;
 }

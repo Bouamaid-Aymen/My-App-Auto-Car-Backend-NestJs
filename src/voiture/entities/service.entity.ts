@@ -13,11 +13,26 @@ export class serviceEntity {
     @Column()
     tel :number;
     @Column({
-        unique:true
+        
     })
-    adress :string;
+    gouvernorat :string;
+
     @Column({
-        default : VerificationEnum.EN_ATTENTE
+        
+    })
+    ville :string;
+    @Column({
+       
+    })
+    description :string;
+
+    @Column({
+      
+    })
+    localisation :string;
+
+    @Column({
+        default : VerificationEnum.NON_VERIFIER
     }
     
     )
