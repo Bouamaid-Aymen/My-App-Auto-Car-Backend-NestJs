@@ -4,6 +4,8 @@ import { LoginDTO } from './dto/login.dto';
 import { User } from './entities/user.entity';
 import { UpDateDTO } from './dto/update.dto';
 import { RegisterDto } from './dto/register.dto';
+import { messageDto } from './dto/message.dto';
+import { message } from './entities/messageU.entity';
 
 @Controller('users')
 export class UsersController {
@@ -11,6 +13,10 @@ export class UsersController {
         private readonly userService: UsersService
     ){
 
+    }
+    @Get('message')
+    async getmessage(){
+        return await this.userService.getmessage();
     }
 
     @Post('register')
@@ -60,7 +66,9 @@ export class UsersController {
         ){
             return await this.userService.MDP(updateCreds);
         }
-        
-    
-    
+        @Post('message')
+        async addMessage(
+            @Body()Creds:messageDto        ){
+            return await this.userService.addMessage(Creds)
+        }
 }

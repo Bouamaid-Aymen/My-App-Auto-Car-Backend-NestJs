@@ -11,6 +11,8 @@ import { use } from 'passport';
 import { UpDateDTO } from './dto/update.dto';
 import { serviceDto } from 'src/voiture/dto/service.dto';
 import { serviceEntity } from 'src/voiture/entities/service.entity';
+import { messageDto } from './dto/message.dto';
+import { message } from './entities/messageU.entity';
 
 @Injectable()
 export class UsersService {
@@ -20,7 +22,8 @@ export class UsersService {
         @InjectRepository(serviceEntity)
         private readonly serviceResp:Repository<serviceEntity>,
         private readonly jwtService:JwtService,
-    
+        @InjectRepository(message)
+        private readonly messageRep: Repository<message>,
         
 
     ){}
@@ -139,7 +142,16 @@ export class UsersService {
                     )
                 }
         }
-        
+        async addMessage(Creds:messageDto){
+            const m=await this.messageRep.create({
+                ...Creds
+            })
+            return await this.messageRep.save(m);
+        }
+        async getmessage(){
+            const listeM=await this.messageRep.find()
+            return await listeM
+        }
 
         
 }

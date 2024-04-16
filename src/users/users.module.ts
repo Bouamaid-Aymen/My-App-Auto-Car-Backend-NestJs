@@ -9,10 +9,11 @@ import * as dotenv from 'dotenv';
 import { JwtStrategy } from './strategy/passport-jwt.strategy';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { serviceEntity } from 'src/voiture/entities/service.entity';
+import { message } from './entities/messageU.entity';
 
 dotenv.config();
 @Module({
-  imports: [TypeOrmModule.forFeature([User,serviceEntity]),
+  imports: [TypeOrmModule.forFeature([User,serviceEntity,message]),
 PassportModule.register({
   defaultStrategy :'jwt'
 }),JwtModule.register({ 
