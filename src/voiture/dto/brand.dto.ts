@@ -5,6 +5,4 @@ export class brandDto{
         
     })
     name:string;
-
-
 }

@@ -1,8 +1,10 @@
 
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { User } from "./user.entity";
+import { TimeStampEntity } from "src/generics/timestamp.entity";
 
 @Entity('message')
-export class message {
+export class message extends TimeStampEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
@@ -19,6 +21,17 @@ export class message {
     nom_service: string;
     @Column()
     emailU:string
+    @Column()
+    idUser:number
+    @ManyToOne(
+        type => User,
+        (user)=>user.message,
+        {
 
+            onDelete: "CASCADE"
+        }
+        
+    )
+    user:User;
    
 }

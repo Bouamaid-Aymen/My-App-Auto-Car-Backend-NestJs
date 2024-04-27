@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, HttpStatus, Param, ParseIntPipe, Patch, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpStatus, Param, ParseIntPipe, Patch, Post, UseGuards ,Request} from '@nestjs/common';
 import { UsersService } from './users.service';
 import { LoginDTO } from './dto/login.dto';
 import { User } from './entities/user.entity';
@@ -6,6 +6,8 @@ import { UpDateDTO } from './dto/update.dto';
 import { RegisterDto } from './dto/register.dto';
 import { messageDto } from './dto/message.dto';
 import { message } from './entities/messageU.entity';
+import { UpDateDTO2 } from './dto/upd2.dto';
+import { UserGuardGuard } from 'src/guards/user-guard/user-guard.guard';
 
 @Controller('users')
 export class UsersController {
@@ -66,9 +68,22 @@ export class UsersController {
         ){
             return await this.userService.MDP(updateCreds);
         }
-        @Post('message')
-        async addMessage(
-            @Body()Creds:messageDto        ){
-            return await this.userService.addMessage(Creds)
+        @Post('update-Email')
+        async updemail(
+            @Body() updateCreds: UpDateDTO2 ,
+        ){
+            return await this.userService.Updemail(updateCreds);
         }
+        
+        @UseGuards(UserGuardGuard)
+        @Post('messages')
+        async EnvoyerMessage(
+            @Body()CredsV:messageDto,
+            @Request() req,
+        ):Promise<message>{
+            const userId = req.id;
+            return this.userService.EnvoyerMessage(CredsV, userId);
+            
+        }
+    
 }

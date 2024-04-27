@@ -11,7 +11,9 @@ export class  RegisterDto {
     email: string;
 
     @IsNotEmpty()
+    tel: number;
+
+    @IsNotEmpty()
     @MinLength(8)
-    //Pattern with regEx
     password: string;
 }

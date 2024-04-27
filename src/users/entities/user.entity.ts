@@ -1,7 +1,8 @@
 import { RoleEnum } from "src/enums/role.enum";
 import { TimeStampEntity } from "src/generics/timestamp.entity";
 import { Mvoiture } from "src/model-voiture/entites/voiture.entity";
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { message } from "./messageU.entity";
 
 @Entity('user')
 export class User extends TimeStampEntity {
@@ -17,6 +18,11 @@ export class User extends TimeStampEntity {
         unique: true
     })
     email: string;
+
+    @Column({
+        
+    })
+    tel:number;
 
     @Column()
     password: string;
@@ -37,5 +43,12 @@ export class User extends TimeStampEntity {
         }
     )
     voiture:Mvoiture;
-   
+    @OneToMany(
+        type =>message,
+        (message)=>message.user,
+        {
+            eager: true,
+            onDelete:"CASCADE"
+        })
+        message:message;
 }

@@ -1,23 +1,24 @@
-import { IsEmail, IsNotEmpty, IsString, MinLength, } from "class-validator";
+import { IsEmail, IsNotEmpty, IsOptional, IsString, MinLength, } from "class-validator";
 
 export class  messageDto {
     @IsNotEmpty()
     message:string;
     
-    @IsNotEmpty()
+    @IsOptional()
     @IsString()
 
     usernameU: string;
 
-    @IsNotEmpty()
+    @IsOptional()
     @IsEmail()
     email: string;
 
-    @IsNotEmpty()
+    @IsOptional()
     nom_service: string;
 
-    @IsNotEmpty()
+    @IsOptional()
     emailU: string;
-    
+    @IsNotEmpty()
+    idUser: number;
 
 }

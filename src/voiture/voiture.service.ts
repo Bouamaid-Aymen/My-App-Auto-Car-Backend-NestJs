@@ -94,6 +94,18 @@ export class VoitureService {
         return await this.brandRep.remove(brand);
       }
 
+      async deletemodele(idB: number){
+        const brand=await this.brandRep.findOne({
+          where:{id:idB}
+        });
+        if(brand){
+          await this.modelRep.remove(brand.model);
+
+        }
+
+        
+      }
+
       async getmodel(){
         const model= this.modelRep.find()   
       return model;

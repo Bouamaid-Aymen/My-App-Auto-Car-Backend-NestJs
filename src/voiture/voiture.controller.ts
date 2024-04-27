@@ -126,5 +126,10 @@ return await this.serviceCar.deleteBrand(idB);
     ){
         return await this.serviceCar.serviceUp(id,Creds)
     }
-    
+    @Delete(':id/model')
+    deletemodele(
+        @Param('id',ParseIntPipe)id:number
+    ){
+        return this.serviceCar.deletemodele(id);
+     }
 }

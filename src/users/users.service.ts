@@ -12,6 +12,7 @@ import { UpDateDTO } from './dto/update.dto';
 import { serviceDto } from 'src/voiture/dto/service.dto';
 import { serviceEntity } from 'src/voiture/entities/service.entity';
 import { messageDto } from './dto/message.dto';
+import { UpDateDTO2 } from './dto/upd2.dto';
 import { message } from './entities/messageU.entity';
 
 @Injectable()
@@ -142,16 +143,65 @@ export class UsersService {
                     )
                 }
         }
-        async addMessage(Creds:messageDto){
-            const m=await this.messageRep.create({
-                ...Creds
+        async Updemail(updateCreds:UpDateDTO2){
+            const user = await this.userRepo.findOne({
+                where:{email:updateCreds.email}
             })
-            return await this.messageRep.save(m);
+            console.log(user);
+              if( !user){
+                throw new NotFoundException('username ou password erronée ')
+              }
+
+              const hashedPassword = await bcrypt.hash( updateCreds.oldPassword, user.salt);
+
+              if(hashedPassword === user.password ){
+                
+                user.email= updateCreds.newemail;
+                user.username=updateCreds.newusername;
+                console.log(user.email);
+                console.log(user.username);
+                return this.userRepo.save(user);
+                
+            }else{
+                throw new HttpException(
+                    "Worng Creds",
+                    HttpStatus.BAD_REQUEST, 
+
+                )
+            }
+    }
+    async EnvoyerMessage(Creds: messageDto, userId: number): Promise<message> {
+        const user = await this.userRepo.findOne({ where: { id: userId } });
+    console.log()
+        let msg = await this.messageRep.findOne({ where: { user: user } });
+        console.log(msg)
+    
+        if (msg) {
+            msg.message = `${msg.message}\n${Creds.message}`;
+        } else {
+            msg = new message();
+            msg.message = Creds.message;
         }
+    
+        msg.email = Creds.email;
+        msg.emailU = Creds.emailU;
+        msg.nom_service = Creds.nom_service;
+        msg.user = user;
+        msg.idUser = Creds.idUser;
+    
+        return await this.messageRep.save(msg);
+    }
+    
+    
+    
+        
+
         async getmessage(){
             const listeM=await this.messageRep.find()
             return await listeM
         }
+
+
 
         
 }
