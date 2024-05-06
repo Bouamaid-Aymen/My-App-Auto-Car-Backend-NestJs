@@ -65,7 +65,7 @@ export class UsersService {
                         where:{email:user.email}
                     });
                   
-                    if (userService && userService.verifier == "NON"){
+                    if (userService && userService.verifier == "NON VÉRIFIÉ"){
                         throw new HttpException(
                             'service non verifié',
                             HttpStatus.BAD_REQUEST  
@@ -147,7 +147,7 @@ export class UsersService {
             const user = await this.userRepo.findOne({
                 where:{email:updateCreds.email}
             })
-            console.log(user);
+            
               if( !user){
                 throw new NotFoundException('username ou password erronée ')
               }
@@ -158,8 +158,7 @@ export class UsersService {
                 
                 user.email= updateCreds.newemail;
                 user.username=updateCreds.newusername;
-                console.log(user.email);
-                console.log(user.username);
+                
                 return this.userRepo.save(user);
                 
             }else{
@@ -170,38 +169,82 @@ export class UsersService {
                 )
             }
     }
-    async EnvoyerMessage(Creds: messageDto, userId: number): Promise<message> {
-        const user = await this.userRepo.findOne({ where: { id: userId } });
-    console.log()
-        let msg = await this.messageRep.findOne({ where: { user: user } });
-        console.log(msg)
-    
-        if (msg) {
-            msg.message = `${msg.message}\n${Creds.message}`;
-        } else {
-            msg = new message();
-            msg.message = Creds.message;
-        }
-    
+    async EnvoyerMessage(Creds: messageDto, userId: number) {
+        const user = await this.userRepo.findOne({ where: { id: userId }, relations:['discussions'] });
+        const rec = await this.serviceResp.findOne({where : {id: Creds.idUser}});
+        let discussion = user.discussions.filter((discussion) => discussion.idUser == Creds.idUser);
+        
+        let msg = new message();
         msg.email = Creds.email;
         msg.emailU = Creds.emailU;
         msg.nom_service = Creds.nom_service;
+        msg.usernameU=Creds.usernameU
         msg.user = user;
         msg.idUser = Creds.idUser;
-    
-        return await this.messageRep.save(msg);
+        const date = new Date();
+        const hours = date.getHours().toString().padStart(2, '0');
+        const minutes = date.getMinutes().toString().padStart(2, '0');
+        const currentTime = `${hours}-${minutes}`;
+        if (discussion.length == 0) {
+            msg.message = `${currentTime}\n${Creds.usernameU} : ${Creds.message}`;
+            discussion.push(msg);
+
+        }else{
+            
+            discussion[0].message = `${discussion[0].message}\n${currentTime}\n${Creds.usernameU} : ${Creds.message}`;
+            
+           
+        }
+        await this.messageRep.save(discussion);
+        user.discussions.push(discussion[0]);
+        rec.discussions.push(discussion[0]);
+        await this.serviceResp.save(rec);
+        return await this.userRepo.save(user);
     }
-    
-    
-    
+
+
+    async ReponseMessage(Creds: messageDto, userId: number) {
+        const user = await this.userRepo.findOne({where : {id: userId}});
+
+        const service = await this.serviceResp.findOne({where : { email: user.email }, relations: ["discussions"]});
+        const rec = await this.serviceResp.findOne({where : {id: Creds.idUser}});
+        let discussion = service.discussions.filter((discussion) => discussion.emailU == Creds.emailU);
+        
+        let msg = new message();
+        msg.email = Creds.email;
+        msg.emailU = Creds.emailU;
+        msg.nom_service = Creds.nom_service;
+        msg.usernameU=Creds.usernameU
+        msg.user = user;
+        msg.idUser = Creds.idUser;
+        const date = new Date();
+        const hours = date.getHours().toString().padStart(2, '0');
+        const minutes = date.getMinutes().toString().padStart(2, '0');
+        const currentTime = `${hours}-${minutes}`;
+        if (discussion.length == 0) {
+           
+            msg.message = `${currentTime}\n${Creds.usernameU} : ${Creds.message}`;
+            discussion.push(msg);
+            
+        }else{
+            discussion[0].message = `${discussion[0].message}\n${currentTime}\n${Creds.usernameU} : ${Creds.message}`
+           
+            
+        }
+
+        await this.messageRep.save(discussion);
+        service.discussions.push(discussion[0]);
+        rec.discussions.push(discussion[0]);
+        await this.userRepo.save(user);
+        return await this.serviceResp.save(service);
+    }
+
         
 
         async getmessage(){
             const listeM=await this.messageRep.find()
             return await listeM
         }
-
-
 
         
 }

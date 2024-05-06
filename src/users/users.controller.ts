@@ -80,10 +80,19 @@ export class UsersController {
         async EnvoyerMessage(
             @Body()CredsV:messageDto,
             @Request() req,
-        ):Promise<message>{
+        ){
             const userId = req.id;
             return this.userService.EnvoyerMessage(CredsV, userId);
             
         }
-    
+        @UseGuards(UserGuardGuard)
+        @Post('message')
+        async ReponseMessage(
+            @Body()CredsV:messageDto,
+            @Request() req,
+        ){
+            const userId = req.id;
+            return this.userService.ReponseMessage(CredsV, userId);
+            
+        }
 }

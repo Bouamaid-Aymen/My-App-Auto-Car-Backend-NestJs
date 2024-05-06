@@ -1,4 +1,5 @@
 import { IsEmail, IsNotEmpty, IsOptional, IsString, MinLength, } from "class-validator";
+import { message } from "../entities/messageU.entity";
 
 export class  messageDto {
     @IsNotEmpty()
@@ -20,5 +21,7 @@ export class  messageDto {
     emailU: string;
     @IsNotEmpty()
     idUser: number;
+  
+
 
 }

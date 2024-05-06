@@ -2,6 +2,8 @@
 import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { User } from "./user.entity";
 import { TimeStampEntity } from "src/generics/timestamp.entity";
+import { serviceEntity } from "src/voiture/entities/service.entity";
+import { serviceDto } from "src/voiture/dto/service.dto";
 
 @Entity('message')
 export class message extends TimeStampEntity {
@@ -25,13 +27,20 @@ export class message extends TimeStampEntity {
     idUser:number
     @ManyToOne(
         type => User,
-        (user)=>user.message,
+        (user)=>user.discussions,
         {
-
             onDelete: "CASCADE"
         }
         
     )
     user:User;
+    @ManyToOne(
+        type=>serviceEntity,
+        (service)=>service.discussions,
+        {
+            onDelete: "CASCADE"
+        }
+    )
+    service:serviceEntity;
    
 }

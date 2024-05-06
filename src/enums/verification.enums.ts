@@ -1,6 +1,6 @@
 export enum VerificationEnum {
-    VERIFIER="OUI",
-    NON_VERIFIER="NON",
+    VERIFIER="VÉRIFIÉ",
+    NON_VERIFIER="NON VÉRIFIÉ",
     EN_ATTENTE="EN ATTENTE"
 
 }

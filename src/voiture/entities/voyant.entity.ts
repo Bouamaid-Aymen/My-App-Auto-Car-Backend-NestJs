@@ -11,6 +11,4 @@ export class Voyant{
     description:string;
     @Column()
     image:string;
-
-
 }

@@ -50,5 +50,5 @@ export class User extends TimeStampEntity {
             eager: true,
             onDelete:"CASCADE"
         })
-        message:message;
+        discussions: message[];
 }

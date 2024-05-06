@@ -219,7 +219,7 @@ async upN(id:number){
 
    
       
-      if (services.verifier === "NON") {
+      if (services.verifier === "NON VÉRIFIÉ") {
         return { statusCode:400 , message: 'Utilisateur non vérifié' };
       }
     
