@@ -7,5 +7,7 @@ nom:string;
 @IsNotEmpty()
 description:string;
 @IsNotEmpty()
+critique:string;
+@IsNotEmpty()
 image:string;
 }

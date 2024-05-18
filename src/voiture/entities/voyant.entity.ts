@@ -10,5 +10,7 @@ export class Voyant{
     @Column()
     description:string;
     @Column()
+    critique:string;
+    @Column()
     image:string;
 }
